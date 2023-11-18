@@ -1,0 +1,104 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database ass2;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use ass2;
+Database changed
+mysql> create table employee(em_id int,em_name char(20),em_join_date date, primary key(em_id));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc employee;
++--------------+----------+------+-----+---------+-------+
+| Field        | Type     | Null | Key | Default | Extra |
++--------------+----------+------+-----+---------+-------+
+| em_id        | int      | NO   | PRI | NULL    |       |
+| em_name      | char(20) | YES  |     | NULL    |       |
+| em_join_date | date     | YES  |     | NULL    |       |
++--------------+----------+------+-----+---------+-------+
+3 rows in set (0.06 sec)
+
+mysql> create table emp_finance(pay_id into auto_increment,ecreate table emp_finance(pay_id into auto_increment,ecrcccccrccccccccrcrcrcreatecrecccccreate table employee(em_id int,em_name char(20),em_join_date dat
+mysql> create table emp_finance(pay_id int auto_increment,em_id int,emsalary int,em_contract date, foreign key(em_id) references employee(em_id),primary key(pay_id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc employee;
++--------------+----------+------+-----+---------+-------+
+| Field        | Type     | Null | Key | Default | Extra |
++--------------+----------+------+-----+---------+-------+
+| em_id        | int      | NO   | PRI | NULL    |       |
+| em_name      | char(20) | YES  |     | NULL    |       |
+| em_join_date | date     | YES  |     | NULL    |       |
++--------------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc emp_finance;
++-------------+------+------+-----+---------+----------------+
+| Field       | Type | Null | Key | Default | Extra          |
++-------------+------+------+-----+---------+----------------+
+| pay_id      | int  | NO   | PRI | NULL    | auto_increment |
+| em_id       | int  | YES  | MUL | NULL    |                |
+| emsalary    | int  | YES  |     | NULL    |                |
+| em_contract | date | YES  |     | NULL    |                |
++-------------+------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into employee values(1,'nitu','2023/11/18');
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+mysql> insert into employee values(2,'neel','2023/12/2');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee values(3,'kirti','2024/1/7');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from employee;
++-------+---------+--------------+
+| em_id | em_name | em_join_date |
++-------+---------+--------------+
+|     1 | nitu    | 2023-11-18   |
+|     2 | neel    | 2023-12-02   |
+|     3 | kirti   | 2024-01-07   |
++-------+---------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into emp_finance values(null,3,2000,'2023/01/22');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from emp_finance;
++--------+-------+----------+-------------+
+| pay_id | em_id | emsalary | em_contract |
++--------+-------+----------+-------------+
+|      1 |     3 |     2000 | 2023-01-22  |
++--------+-------+----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> create view EmpDetails
+    -> as
+    -> select e.em_id,e.em_name,f.emsalary
+    -> from employee as e inner join emp_finance as f
+    -> where e.em_id=f.em_id;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from EmpDetails;
++-------+---------+----------+
+| em_id | em_name | emsalary |
++-------+---------+----------+
+|     3 | kirti   |     2000 |
++-------+---------+----------+
+1 row in set (0.00 sec)
+
+mysql> alter table emp_finance add index salary(emsalary);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
